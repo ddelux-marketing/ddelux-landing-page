@@ -14,7 +14,7 @@ export const site = {
    * Google Tag Manager ID (napr. 'GTM-XXXXXXX').
    * Ak zostane prázdny reťazec, GTM sa do stránky vôbec nevloží.
    */
-  gtmId: '',
+  gtmId: 'GTM-MG8FXVQV',
 
   logo: {
     src: '/images/logo.jpg',
