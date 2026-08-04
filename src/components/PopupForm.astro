@@ -1,0 +1,125 @@
+---
+import { popup } from '../data/content';
+import { site } from '../data/site';
+
+const labelClass = 'mb-2 block text-left text-[16px] font-bold text-[#111]';
+const inputClass =
+  'w-full rounded-lg border border-[#d4d4d4] bg-white px-3.5 py-3 text-[16px] text-[#222] outline-none placeholder:text-[#a9a9a9] focus:border-brand';
+---
+
+<!-- Vyskakovací formulár — zobrazí sa po 10 s (raz za session) alebo po kliknutí na CTA tlačidlá.
+     Vzhľad prevzatý z pôvodného webu (web-design/css/popup.css). -->
+<div id="lead-popup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4" hidden>
+  <div
+    class="relative max-h-[calc(100vh-32px)] w-full max-w-[660px] overflow-y-auto rounded-[20px] border-2 border-brand bg-[#050505] px-5 pb-7 pt-12 text-center text-white md:px-12 md:pb-12 md:pt-14"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lead-popup-title"
+  >
+    <button
+      type="button"
+      data-popup-close
+      aria-label="Zavrieť"
+      class="absolute right-[18px] top-[18px] flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-2 border-white text-[17px] leading-none text-white transition hover:border-brand hover:text-brand"
+    >
+      &#10005;
+    </button>
+    <h2 id="lead-popup-title" class="mb-5 text-[26px] font-normal leading-[1.25] md:text-[38px]">
+      {popup.nadpis}
+    </h2>
+    <p class="mx-auto max-w-[480px] text-[17px] leading-normal">{popup.text}</p>
+    <form
+      name="rezervacia"
+      method="POST"
+      action="/dakujeme"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      class="mt-7 rounded-[10px] bg-white px-5 py-6 md:px-10 md:py-9"
+    >
+      <input type="hidden" name="form-name" value="rezervacia" />
+      <p class="hidden">
+        <label>Nevypĺňajte: <input name="bot-field" /></label>
+      </p>
+      <div class="grid gap-5 md:grid-cols-2">
+        <div>
+          <label for="pf-meno" class={labelClass}>
+            {popup.polia.meno} <span class="text-red-500">*</span>
+          </label>
+          <input id="pf-meno" name="meno" type="text" required placeholder={popup.polia.meno} class={inputClass} />
+        </div>
+        <div>
+          <label for="pf-email" class={labelClass}>
+            {popup.polia.email} <span class="text-red-500">*</span>
+          </label>
+          <input id="pf-email" name="email" type="email" required placeholder={popup.polia.email} class={inputClass} />
+        </div>
+        <div>
+          <label for="pf-telefon" class={labelClass}>{popup.polia.telefon}</label>
+          <input id="pf-telefon" name="telefon" type="tel" placeholder={popup.polia.telefon} class={inputClass} />
+        </div>
+        <div>
+          <label for="pf-model" class={labelClass}>{popup.polia.modelAuta}</label>
+          <input id="pf-model" name="model-auta" type="text" placeholder={popup.polia.modelAuta} class={inputClass} />
+        </div>
+        <div class="md:col-span-2">
+          <label for="pf-sluzba" class={labelClass}>{popup.polia.sluzba}</label>
+          <select id="pf-sluzba" name="sluzba" class={`${inputClass} cursor-pointer`}>
+            {popup.sluzbaMoznosti.map((moznost) => <option value={moznost}>{moznost}</option>)}
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label for="pf-sprava" class={labelClass}>{popup.polia.sprava}</label>
+          <textarea id="pf-sprava" name="sprava" rows="4" class={inputClass}></textarea>
+        </div>
+      </div>
+      <label class="mt-5 flex items-center gap-2 text-[14px] text-[#333]">
+        <input type="checkbox" name="gdpr-suhlas" required class="h-4 w-4 shrink-0 accent-brand" />
+        <span>
+          <a href={site.gdprUrl} target="_blank" rel="noopener" class="underline hover:text-brand">
+            {popup.gdprText}
+          </a><span class="text-red-500">*</span>
+        </span>
+      </label>
+      <button
+        type="submit"
+        class="mt-5 w-full cursor-pointer rounded-full bg-brand py-[17px] text-[17px] font-bold text-white transition hover:bg-[#2e7deb]"
+      >
+        {popup.odoslat}
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const DELAY = 10000; // po akej dobe sa popup zobrazí automaticky (ms)
+  const KEY = 'leadPopupShown';
+
+  const overlay = document.getElementById('lead-popup');
+  if (overlay) {
+    const open = () => {
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      sessionStorage.setItem(KEY, '1');
+    };
+    const close = () => {
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('[data-popup-open]').forEach((tlacidlo) => {
+      tlacidlo.addEventListener('click', open);
+    });
+    overlay.querySelector('[data-popup-close]')?.addEventListener('click', close);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay.hidden) close();
+    });
+
+    // Automaticky sa zobrazí len na hlavnej stránke, nie na /dakujeme.
+    if (!sessionStorage.getItem(KEY) && location.pathname === '/') {
+      setTimeout(open, DELAY);
+    }
+  }
+</script>

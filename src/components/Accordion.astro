@@ -1,0 +1,44 @@
+---
+/** Rozbaľovací zoznam „čo služba zahŕňa“ v sekciách PPF a Keramika. */
+interface Props {
+  nadpis: string;
+  polozky: readonly string[];
+}
+
+const { nadpis, polozky } = Astro.props;
+---
+
+<details class="group rounded-xl border border-brand/50 px-5 py-4">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-heading text-[18px] font-bold text-white [&::-webkit-details-marker]:hidden">
+    {nadpis}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+      class="h-5 w-5 shrink-0 text-brand transition-transform group-open:rotate-180"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+  </summary>
+  <ol class="list-decimal space-y-2 pl-5 pt-4 text-[16px] leading-relaxed text-white/90">
+    {polozky.map((polozka) => <li>{polozka}</li>)}
+  </ol>
+</details>
+
+<style>
+  /* Plynulé rozbaľovanie <details> — v prehliadačoch bez podpory
+     ::details-content sa obsah otvorí okamžite. */
+  details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility 0.35s allow-discrete,
+      block-size 0.35s ease;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+</style>

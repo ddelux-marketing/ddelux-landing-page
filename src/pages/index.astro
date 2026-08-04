@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Ppf from '../components/Ppf.astro';
+import Keramika from '../components/Keramika.astro';
+import Statistiky from '../components/Statistiky.astro';
+import Recenzie from '../components/Recenzie.astro';
+import VideaSocial from '../components/VideaSocial.astro';
+import Vyber from '../components/Vyber.astro';
+import Zaruka from '../components/Zaruka.astro';
+import Footer from '../components/Footer.astro';
+import PopupForm from '../components/PopupForm.astro';
+import { seo } from '../data/content';
+import { site } from '../data/site';
+
+const firmaLd = {
+  '@context': 'https://schema.org',
+  '@type': site.jsonLd.typFirmy,
+  name: site.nazovFirmy,
+  description: seo.popis,
+  url: Astro.site?.href,
+  image: new URL(site.ogImage.src, Astro.site).href,
+  logo: new URL(site.logo.src, Astro.site).href,
+  email: site.kontakt.email,
+  telephone: site.kontakt.telefonJsonLd,
+  sameAs: [site.socialne.instagram, site.socialne.facebook],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.jsonLd.adresa.ulica,
+    addressLocality: site.jsonLd.adresa.mesto,
+    postalCode: site.jsonLd.adresa.psc,
+    addressCountry: site.jsonLd.adresa.krajina,
+  },
+  areaServed: site.jsonLd.oblastPosobenia,
+};
+---
+
+<Layout title={seo.titulok} description={seo.popis}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(firmaLd)} />
+  <Header />
+  <Hero />
+  <Ppf />
+  <Keramika />
+  <Statistiky />
+  <Recenzie />
+  <VideaSocial />
+  <Vyber />
+  <Zaruka />
+  <Footer />
+  <PopupForm />
+</Layout>

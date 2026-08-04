@@ -1,0 +1,55 @@
+---
+import { ppf } from '../data/content';
+import Accordion from './Accordion.astro';
+import Cennik from './Cennik.astro';
+---
+
+<section class="bg-black" id="ppf">
+  <div class="mx-auto max-w-6xl px-4 py-10 md:py-14">
+    <h2 class="text-center font-heading text-[28px] font-bold text-white md:text-[42px]">
+      {ppf.vyhodaNadpis}
+    </h2>
+    <div class="mt-8 rounded-[30px] border-2 border-brand px-5 py-8 md:rounded-[50px] md:px-10 md:py-12">
+      <h3 class="font-heading text-[26px] text-brand md:text-[35px]">{ppf.nadpis}</h3>
+      <div class="mt-6 grid gap-10 md:grid-cols-[3fr_2fr]">
+        <div>
+          {
+            ppf.odseky.map((odsek) => (
+              <p
+                class="mt-4 text-[18px] leading-[1.5] text-white first:mt-0 [&_strong]:font-bold [&_strong]:text-brand"
+                set:html={odsek}
+              />
+            ))
+          }
+          <div class="mt-8">
+            <Cennik ceny={ppf.ceny} />
+          </div>
+          <button
+            type="button"
+            data-popup-open
+            class="mt-8 inline-block cursor-pointer rounded-[10px] bg-brand px-8 py-3 text-[20px] font-bold text-white transition hover:bg-brand/85"
+          >
+            {ppf.cta}
+          </button>
+          <div class="mt-8">
+            <Accordion nadpis={ppf.accordion.nadpis} polozky={ppf.accordion.polozky} />
+          </div>
+        </div>
+        <div class="grid content-start justify-items-center gap-4">
+          {
+            ppf.obrazky.map((obrazok) => (
+              <img
+                src={obrazok.src}
+                alt={obrazok.alt}
+                width="309"
+                height="309"
+                class="w-[309px] max-w-full rounded-2xl object-cover"
+                loading="lazy"
+              />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

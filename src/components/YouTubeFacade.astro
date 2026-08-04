@@ -1,0 +1,46 @@
+---
+/**
+ * Náhľad YouTube videa — iframe sa načíta až po kliknutí,
+ * aby YouTube skripty nespomaľovali načítanie stránky.
+ * Pomer strán určuje volajúci cez class (aspect-video, aspect-[9/16]…).
+ */
+interface Props {
+  videoId: string;
+  title: string;
+  class?: string;
+}
+
+const { videoId, title, class: className = '' } = Astro.props;
+---
+
+<button
+  type="button"
+  class={`yt-facade group relative block w-full cursor-pointer overflow-hidden ${className}`}
+  data-yt={videoId}
+  data-title={title}
+  aria-label={`Prehrať video: ${title}`}
+>
+  <img src={`/images/yt-${videoId}.jpg`} alt={title} class="h-full w-full object-cover" loading="lazy" />
+  <img
+    src="/images/youtube.svg"
+    alt=""
+    width="68"
+    height="48"
+    class="absolute left-1/2 top-1/2 w-[68px] -translate-x-1/2 -translate-y-1/2 transition-transform group-hover:scale-110"
+  />
+</button>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.yt-facade').forEach((facade) => {
+    facade.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${facade.dataset.yt}?autoplay=1`;
+      iframe.title = facade.dataset.title ?? 'YouTube video';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.className = `${facade.className.replace('yt-facade', '')} aspect-video border-0`;
+      facade.replaceWith(iframe);
+    });
+  });
+</script>

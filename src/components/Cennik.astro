@@ -1,0 +1,26 @@
+---
+/** Cenové riadky sekcií PPF a Keramika. */
+interface Props {
+  ceny: {
+    uvod: string;
+    zvyraznene: string;
+    cena: string;
+    poznamka: string;
+  }[];
+}
+
+const { ceny } = Astro.props;
+---
+
+<div class="space-y-6">
+  {
+    ceny.map((polozka) => (
+      <p class="text-[20px] leading-snug text-white">
+        <span class="font-bold">{polozka.uvod}</span>{' '}
+        <span class="font-bold text-brand">{polozka.zvyraznene}</span>
+        <br />
+        <span class="font-bold text-brand">{polozka.cena}</span> <span>{polozka.poznamka}</span>
+      </p>
+    ))
+  }
+</div>

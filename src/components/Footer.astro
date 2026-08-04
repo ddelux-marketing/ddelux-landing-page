@@ -1,0 +1,44 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="border-t border-white/15 bg-black" id="kontakt">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-14 md:grid md:grid-cols-3 md:items-center"
+  >
+    <div>
+      <img
+        src={site.logo.src}
+        alt={site.logo.alt}
+        width={site.logo.width}
+        height={site.logo.height}
+        class="h-[3.875rem] w-auto"
+        loading="lazy"
+      />
+    </div>
+    <div class="md:text-center">
+      <p class="font-heading text-[18px] font-bold text-white">{site.fakturacne.nazov}</p>
+      <p class="mt-2 text-[16px] text-white/70">{site.fakturacne.ico}</p>
+      <p class="text-[16px] text-white/70">{site.fakturacne.register}</p>
+    </div>
+    <div class="md:text-right">
+      {
+        site.kontakt.telefony.map((cislo) => (
+          <a
+            href={`tel:${cislo.replaceAll(' ', '')}`}
+            class="block text-[16px] font-bold text-white transition hover:text-brand"
+          >
+            {cislo}
+          </a>
+        ))
+      }
+      <a
+        href={`mailto:${site.kontakt.email}`}
+        class="mt-2 block text-[16px] font-bold text-white transition hover:text-brand"
+      >
+        {site.kontakt.email}
+      </a>
+      <p class="mt-2 text-[16px] text-white/70">{site.kontakt.sidlo}</p>
+    </div>
+  </div>
+</footer>

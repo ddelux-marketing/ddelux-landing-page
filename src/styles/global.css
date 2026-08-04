@@ -1,0 +1,15 @@
+@import "@fontsource-variable/montserrat";
+@import "@fontsource-variable/open-sans";
+@import "tailwindcss";
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+@theme {
+  --font-heading: "Montserrat Variable", sans-serif;
+  --font-body: "Open Sans Variable", sans-serif;
+  /* Modrý akcent z pôvodného dizajnu (rgb 64,145,255) */
+  --color-brand: #4091ff;
+  --color-brand-dark: #204980;
+}

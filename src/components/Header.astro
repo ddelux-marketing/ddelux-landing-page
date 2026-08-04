@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+---
+
+<header class="bg-black">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5">
+    <a href="/">
+      <img
+        src={site.logo.src}
+        alt={site.logo.alt}
+        width={site.logo.width}
+        height={site.logo.height}
+        class="h-[3rem] w-auto md:h-[3.9375rem]"
+        fetchpriority="high"
+      />
+    </a>
+    <nav class="flex items-center gap-2 md:gap-6">
+      <a href="/#kontakt" class="px-2 py-2 text-[16px] text-white transition hover:text-brand md:text-[18px]">
+        Kontakt
+      </a>
+      <button
+        type="button"
+        data-popup-open
+        class="cursor-pointer rounded-md bg-brand px-4 py-2 text-[16px] font-bold text-white transition hover:bg-brand/85 md:px-6 md:text-[18px]"
+      >
+        Rezervácia termínu
+      </button>
+    </nav>
+  </div>
+</header>
