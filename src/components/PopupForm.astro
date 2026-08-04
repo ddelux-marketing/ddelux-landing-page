@@ -31,7 +31,7 @@ const inputClass =
     <form
       name="rezervacia"
       method="POST"
-      action="/dakujeme"
+      action="/ppf-folie-keramika/dakujeme"
       data-netlify="true"
       data-netlify-honeypot="bot-field"
       class="mt-7 rounded-[10px] bg-white px-5 py-6 md:px-10 md:py-9"
@@ -118,7 +118,7 @@ const inputClass =
     });
 
     // Automaticky sa zobrazí len na hlavnej stránke, nie na /dakujeme.
-    if (!sessionStorage.getItem(KEY) && location.pathname === '/') {
+    if (!sessionStorage.getItem(KEY) && location.pathname.replace(/\/$/, '') === '/ppf-folie-keramika') {
       setTimeout(open, DELAY);
     }
   }
