@@ -124,6 +124,13 @@ const inputClass =
       if (e.key === 'Escape' && !overlay.hidden) close();
     });
 
+    // Pri odoslaní formulára pošle do dataLayer event "generate_lead" (pre GTM/GA4).
+    overlay.querySelector('form[name="rezervacia"]')?.addEventListener('submit', () => {
+      const w = window as typeof window & { dataLayer?: Record<string, unknown>[] };
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({ event: 'generate_lead' });
+    });
+
     // Automaticky sa zobrazí len na hlavnej stránke, nie na /dakujeme.
     if (!sessionStorage.getItem(KEY) && location.pathname.replace(/\/$/, '') === '/ppf-folie-keramika') {
       setTimeout(open, DELAY);
